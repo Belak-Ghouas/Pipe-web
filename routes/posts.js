@@ -20,7 +20,7 @@ router.get('/posts', autheMiddleWare.authenticateToken,(req, res) => {
         })}
 });
 
-router.post('/post',(req, res) => {
+router.post('/post',autheMiddleWare.authenticateToken,(req, res) => {
 
     const userId = req.user?.userId
     const post = req.body.post

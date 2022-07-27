@@ -11,7 +11,7 @@ POST  http://localhost:3000/api/auth/signup
 Content-Type: application/json
 
 {
-    "email": "banoune",
+    "email": "ghouas",
     "password": "password"
 }
 
@@ -22,10 +22,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsI
 ###
 POST  http://localhost:3000/user/post
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoiZ2hvdWFzIiwidXNlcklkIjoiNjJkYWRmNTBmYWQ4MWYzZGQ4YmIyMjFiIn0sImlhdCI6MTY1ODUyMTQzMiwiZXhwIjoxNjU4NjA3ODMyfQ.cZEvQf1RgihD99TnY76WzjZHZiaQdJElqiz7gWaBcTA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoiZ2hvdWFzIiwidXNlcklkIjoiNjJlMTg0MjE1MmVjYjk0YTBjYzA5Y2U1In0sImlhdCI6MTY1ODk0NzIwMCwiZXhwIjoxNjU5MDMzNjAwfQ.VxiERaljJ0bcI5GiGWOrlXdtz-HlCz0m1SDrLCmvKxo
 
 
-  {  
+  {
+    "post":{
+      "title":"ceci est mon premier post",
+      "content":" ceci est le contenur de mon supposé premier post"
+    }  
   }
 
 ###
