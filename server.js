@@ -4,11 +4,20 @@ var path = require('path');
 const authRoute = require('./routes/auth')
 const postsRoute = require('./routes/posts')
 const slackRoute = require('./routes/slack')
-const bcrypt = require('bcrypt')
+const User = require('./models/user')
+
 const mongoose = require("mongoose")
+const mongoStore = require('connect-mongo')
+const session = require('express-session')
+const flash = require('connect-flash');
 const  dbURI = "mongodb+srv://"+process.env.DATABASE_USERNAME+":"+process.env.DATABASE_PASSWORD+"@sms-pipe-database.hu6fyrs.mongodb.net/?retryWrites=true&w=majority"
 const autheMiddleWare = require('./middlewares')
-
+const sessionMiddleWare = require('./sessionMiddleWare')
+const sessionStorage = mongoStore.create({
+  mongoUrl : dbURI,
+  collectionName : 'sessions',
+  autoRemove : 'native'
+})
 const app = express()
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -17,10 +26,30 @@ app.use(express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')))
 app.use(express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')));
 app.use(express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: true }))
+app.use(session({
+  name:'session_uid',
+  secret : process.env.SESSION_SECRET ,
+  resave: false,
+  saveUninitialized:true,
+  cookie:{maxAge:24 * 60 * 60 * 1000 },// 24 hours
+  store:sessionStorage
+}))
+//------------ Connecting flash ------------//
+app.use(flash());
+
+//------------ Global variables ------------//
+app.use(function(req, res, next) {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  next();
+});
+
 app.use('/api/auth', authRoute)
 app.use('/user',postsRoute)
 app.use('/slack',slackRoute)
+
 
 /*
 ///////////////////////////////////
@@ -44,15 +73,23 @@ const firebase = initializeApp(firebaseConfig);
 ////////////////////
 */
 
-app.get('/',autheMiddleWare.authenticateToken,function (req, res) {
-    console.log("Go to home page")
-    res.render('pages/home')
+app.get('/',sessionMiddleWare.sessionState,function (req, res) {
+    console.log("Go to home page  you are authenticated "+req.session.username)
+    res.render('pages/about',{ 'username' : req.session.username })   
     });
 
 
 app.get('/login',(req,res)=>{ 
   res.render('pages/login')
-})
+});
+
+/*
+app.post('/login',(req,res)=>{ 
+  res.redirect('api/auth/login');
+})*/
+app.get('/register',(req,res)=>{
+  res.render('pages/register')
+});
 
 
 

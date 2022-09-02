@@ -1,0 +1,100 @@
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sms Pipe</title>
+  <link rel="icon" type="image/png" href="/gnu.png" />
+  <link href="/jquery.js" rel="stylesheet"/>
+  <link href="/bootstrap.min.css" rel="stylesheet"/>
+  <link href="/register.css" rel="stylesheet"/>
+  <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"/>
+  <script src="/jquery.min.js"></script>
+  <script src="/bootstrap.min.js"></script>
+</head>
+
+
+    <div class="container">
+      <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-lg-6 col-xl-9">
+          <div class="card text-black py-5" style="border-radius: 25px;">
+            <div class="card-body p-md-2" >
+              <div class="row justify-content-center">
+                <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+  
+                  <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-3">Sign up</p>
+  
+                  <form class="mx-1 mx-md-4" action="/api/auth/register" method="post" onsubmit="return checkMatchPassword();">
+  
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <i class="glyphicon glyphicon-user"></i>
+                        <input type="text" id="username" name="username" class="form-control" placeholder="Username" maxlength="30" required="required"/>
+                      </div>
+                    </div>
+             
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Email@example.com"  maxlength="30" required="required"/>
+                      </div>
+                    </div>
+  
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Password" maxlength="30" required="required" onkeyup="checkForm();"/>
+                      </div>
+                    </div>
+  
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <input type="password" id="password_confirm"  name="password_confirm" class="form-control" placeholder="Confirm password" maxlength="30" required="required" onkeyup="checkForm();"/>
+                        <div class="form-outline  flex-fill mb-0">
+                            <span id="error_password" style="color: red; position:absolute;" hidden>Password not match</span>   
+                          </div> 
+                      </div> 
+                                 
+                    </div>
+                    <div class="d-flex flex-row  align-items-center justify-content-center mx-2 mb-4 mb-lg-4">
+                      <button id="register" type="submit" class="validate_button btn btn-primary btn-lg"  disabled >Register</button>
+                    </div>
+  
+                  </form>
+  
+                </div>
+                <div class="col-md-8 col-lg-4 col-xl-6 d-flex align-items-center order-1 order-lg-2">
+  
+                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                    class="img-fluid" alt="Sample image">
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      function checkForm() {
+        var password = document.getElementById('password')
+        var password_confirm = document.getElementById('password_confirm')
+        var error_password = document.getElementById('error_password')
+        var register = document.getElementById('register')
+        
+        if (password.value == password_confirm.value) {
+          password_confirm.classList.remove("is-invalid")
+          password_confirm.classList.remove("is-valid")
+          error_password.hidden = true
+          register.disabled = false
+
+        } else {
+          password_confirm.classList.add("is-invalid")
+          error_password.hidden = false
+          register.disabled = true
+        }
+      }
+    </script>

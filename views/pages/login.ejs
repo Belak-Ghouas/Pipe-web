@@ -3,30 +3,50 @@
 <link href="/jquery.js" rel="stylesheet">
 <link href="/bootstrap.min.css" rel="stylesheet">
 <link href="/login.css" rel="stylesheet">
+<script src="/jquery.min.js"></script>
+<script src="/bootstrap.min.js"></script>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sms Pipe</title>
+  <link rel="icon" type="image/png" href="/gnu.png" />
+</head>
 
 <div class="container">
+
   <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <h2 class="text-center text-dark mt-5">Login Form</h2>
-      <div class="text-center mb-5 text-dark">Made with bootstrap</div>
+    <div class="col-md-4 offset-md-4 ">     
       <div class="card my-5">
-
-        <form class="card-body cardbody-color p-lg-5"  action="api/auth/login" method="post" >
-
+        <div class="flash_class">
+          <% if(success_msg != ''){ %>
+            <div  class="alert alert-success alert-dismissible fade show m-4">
+              <%= success_msg %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+          <% } %>
+    
+          <% if(error_msg != ''){ %>
+            <div  class="alert alert-danger alert-dismissible fade show m-4">
+              <%= error_msg %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+          <% } %>
+        </div>
+        <form class="p-lg-5"  action="/api/auth/login" method="post" >
           <div class="text-center">
-            <img src="https://cdn.pixabay.com/photo/2016/03/31/19/56/avatar-1295397__340.png" class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3" width="200px" alt="profile">
+            <img src="/gnu.png" class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3" width="200px" alt="profile">
           </div>
 
           <div class="mb-3">
-            <input type="text" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="User Name">
+            <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="email@example.com" required>
           </div>
           <div class="mb-3">
-            <input type="password" class="form-control" name="password" id="password" placeholder="password">
+            <input type="password" class="form-control" name="password" id="password" placeholder="password" required>
           </div>
-          <div class="text-center"><button type="submit" class="btn btn-color px-5 mb-5 w-100">Login</button></div>
-          <div id="emailHelp" class="form-text text-center mb-5 text-dark">Not
-            Registered? <a href="#" class="text-dark fw-bold"> Create an
-              Account</a>
+          <div class="text-center">
+            <button type="submit" class="validate_button btn btn-primary px-5 mb-5 w-100">Login</button></div>
+          <div id="emailHelp" class="form-text text-center mb-5 text-dark">Not Registered? <a href="/register" class="text-dark fw-bold"> Create an Account</a>
           </div>
         </form>
       </div>
@@ -34,3 +54,11 @@
     </div>
   </div>
 </div>
+
+<script>
+  $(document).ready(function() {
+  $(".btn-close").click(function() {
+    $(".alert").alert("close");
+  });
+});
+</script>

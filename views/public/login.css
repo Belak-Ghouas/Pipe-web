@@ -1,21 +1,37 @@
-.btn-color{
-  background-color: #0e1c36;
-  color: #fff;
-  
+
+.validate_button{
+  line-height:20px;
+  background-color: #3277e0;
+  border-color:#3277e0;
 }
 
+.validate_button[disabled] {
+  background-color: #b1b5bc;
+  border-color: #b1b5bc;
+}
+
+
 .profile-image-pic{
-  height: 200px;
-  width: 200px;
+  height: 150px;
+  width: 150px;
   object-fit: cover;
 }
 
-
-
-.cardbody-color{
-  background-color: #ebf2fa;
+.card{
+  background-color: #ffffff;
+  border-radius: 20px;
 }
+
 
 a{
   text-decoration: none;
+}
+
+.flash_class{
+  display: inline-block;
+  position: absolute;
+  line-height:20px;
+  z-index:1;
+  align-content: center;
+  width: 100%;
 }

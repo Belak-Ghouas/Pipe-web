@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
 const model = mongoose.Schema({
+    pipe_user_id:String,
     access_token:String,
     token_type: String,
     scope: [String],

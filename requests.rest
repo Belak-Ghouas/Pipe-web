@@ -37,12 +37,15 @@ POST https://slack.com/api/oauth.v2.access&code=1234&client_id=3746919800806.378
 Content-Type: application/x-www-form-urlencoded
 
 ###
-POST  http://localhost:3000/slack/authorization
-Content-Type: application/json
+POST  http://localhost:3000/slack/authorization?code=3746919800806.3974945773283.9d596164cb4a7b7c04797f9e1724aed19cbcdef328c827e7618e5b3b4d351219&state=62e1842152ecb94a0cc09ce5 HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
 
-{
-  "code":1253
-}
+code=1234
+
+
 
 ###
 GET  http://localhost:3000/ 
+
+###
+GET https://slack.com/api/conversations.list -H "Authorization: Bearer xoxb-3746919800806-3961811943894-cIKrRwVbDw4LlM81JzPtPznQ"
