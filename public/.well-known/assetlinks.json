@@ -1,0 +1,11 @@
+[
+    {
+      "relation": ["delegate_permission/common.use_as_origin"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.sms.pipe",
+        "sha256_cert_fingerprints":
+          ["D0:A2:4A:14:79:69:E2:FA:F6:72:63:36:34:CA:FB:0B:34:34:22:0A:E4:E2:6A:63:2D:1C:58:17:4B:D9:54:96"]
+      }
+    }
+  ]

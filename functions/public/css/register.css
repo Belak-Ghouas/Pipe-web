@@ -1,0 +1,46 @@
+:root {
+    --primary-light-hsl: 200, 100%, 91%;
+    --primary-hsl: 200, 100%, 50%;
+    --primary-dark-hsl: 200, 100%, 6%;
+    --success-hsl: 100, 60%, 50%;
+    --error-hsl: 0, 60%, 50%;
+  }
+
+
+  .success {
+    box-shadow: 0 0 0 2px hsl(var(--success-hsl));
+  }
+  
+ .error {
+    box-shadow: 0 0 0 2px hsl(var(--error-hsl));
+  }
+
+
+.card-body{
+    position: relative
+}
+.validate_button{
+  line-height:20px;
+  background-color: #3277e0;
+  border-color:#3277e0;
+}
+
+.validate_button[disabled] {
+  background-color: #b1b5bc;
+  border-color: #b1b5bc;
+}
+
+
+.container {
+  position: absolute;
+  display: flex;
+  direction:justify-content-center ;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+
