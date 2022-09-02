@@ -6,6 +6,7 @@ const { data } = require('jquery');
 const SlackToken = require('../models/slack_token')
 const scope ='channels:read,chat:write,chat:write.public'
 const sessionMiddleWare = require('../sessionMiddleWare')
+const autheMiddleWare = require('../middlewares')
 
 
 router.get('/slackcode',sessionMiddleWare.sessionState, async(req, res) => {
@@ -54,6 +55,26 @@ router.post('/authorization', async(req, res) => {
       })
     }
 });
+
+
+router.get('/slack_access_token',autheMiddleWare.authenticateToken,(req, res) =>{
+    const userId = req.user.userId
+    console.log(req.user)
+    console.log(userId)
+   
+    if(userId != null){
+         SlackToken.findOne({ pipe_user_id: userId},(error,slack_model)=>{
+            if(error) {
+            console.log(error)
+            res.status(404).json({'error':'no token for this user token'})
+            }else{
+                console.log(slack_model)
+                res.status(200).json({'slack_access_token':slack_model.access_token}).send()
+            }
+            
+        })}
+
+})
 
 const getTokenFromSlack = async(slackCode) => {
     const headers = {
