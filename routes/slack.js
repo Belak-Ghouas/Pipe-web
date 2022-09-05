@@ -7,6 +7,7 @@ const SlackToken = require('../models/slack_token')
 const scope ='channels:read,chat:write,chat:write.public'
 const sessionMiddleWare = require('../sessionMiddleWare')
 const autheMiddleWare = require('../middlewares')
+const User = require('../models/user')
 
 
 router.get('/slackcode',sessionMiddleWare.sessionState, async(req, res) => {
@@ -24,7 +25,35 @@ router.post('/authorization', async(req, res) => {
     if (tmpCode != null) {
      await getTokenFromSlack(tmpCode).then(value=>{
         console.log(value)
-        SlackToken.create({
+        User.updateOne({ _id: state }, { 
+            slack_access_token: value.access_token,
+            slack_token_type: value.token_type,
+            scope: value.scope,
+            bot_user_id: value.bot_user_id,
+            app_id: value.app_id,
+            team: {
+                name: value.team?.name,
+                id: value.team?.id
+            },
+            enterprise: {
+                name: value.enterprise?.name,
+                id: value.enterprise?.id
+            },
+            authed_user: {
+                id: value.authed_user?.id,
+                scope: value.authed_user?.scope,
+                access_token: value.authed_user?.access_token,
+                token_type: value.authed_user?.token_type,
+            }
+
+         }).then((obj) => {
+            console.log('Updated - ' + obj);
+            res.redirect('/')
+        })
+        .catch((err) => {
+            console.log('/',);
+        });
+       /* SlackToken.create({
             pipe_user_id : state,
             access_token: value.access_token,
             token_type: value.token_type,
@@ -49,7 +78,7 @@ router.post('/authorization', async(req, res) => {
         if(error!= null) return console.log("error to create slackToken object")
 
         console.log("create slackToken object successfully")
-    })
+    })*/
     res.status(200)
     return  res.redirect('/')
       })

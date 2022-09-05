@@ -79,8 +79,18 @@ app.get('/',sessionMiddleWare.sessionState,function (req, res) {
     });
 
 
-app.get('/login',(req,res)=>{ 
-  res.render('pages/login')
+app.get('/login',(req,res)=>{
+  const userId = req.session.userId
+  if(userId){
+    res.redirect('/')
+  }else{
+    res.render('pages/login')
+  } 
+});
+
+app.get('/mobile', autheMiddleWare.authenticateToken,(req,res)=>{
+  console.log("come from mobile")
+  res.render('pages/about',{ 'username' : req.session.username })
 });
 
 /*
