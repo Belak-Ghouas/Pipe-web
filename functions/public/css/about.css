@@ -4,6 +4,15 @@ body {
   box-sizing: border-box;
 }
 
+.flash_class{
+  display: inline-block;
+  position: absolute;
+  line-height:20px;
+  z-index:1;
+  align-content: center;
+  width: 100%;
+}
+
 .username{
   color: rgb(47, 45, 45);
   font-size: 25px;

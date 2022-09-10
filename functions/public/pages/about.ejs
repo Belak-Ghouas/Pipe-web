@@ -6,6 +6,8 @@
 <!-- Custom styles for this template -->
 <link href="css/about.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<script src="/jquery.min.js"></script>
+<script src="/bootstrap.min.js"></script>
 
 <head>
   <meta charset="UTF-8">
@@ -31,6 +33,21 @@
     </nav>
   </header>
   <main>
+    <div class="flash_class">
+      <% if(success_msg != ''){ %>
+        <div  class="alert alert-success alert-dismissible fade show m-4">
+          <%= success_msg %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+      <% } %>
+        
+      <% if(error_msg != ''){ %>
+        <div  class="alert alert-danger alert-dismissible fade show m-4">
+          <%= error_msg %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+      <% } %>
+    </div>
     <div class="intro">
       <h1>Sms pipe </h1>
       <p>Link your SMS Pipe application to Slack</p>
@@ -75,3 +92,4 @@
     </div>
   </footer>
 </body>
+</html>
