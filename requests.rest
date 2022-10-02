@@ -53,3 +53,16 @@ GET https://slack.com/api/conversations.list -H "Authorization: Bearer xoxb-3746
 GET  http://localhost:3000/slack/slack_access_token
 Content-Type: application/json 
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoiZ2hvdWFzLmFiZGVsaGFrQGdtYWlsLmNvbSIsInVzZXJJZCI6IjYyZTE4NDIxNTJlY2I5NGEwY2MwOWNlNSJ9LCJpYXQiOjE2NjIxNTIxOTUsImV4cCI6MTY2MjIzODU5NX0.YAHxHTJTga8DCW3l5i44uGLeeU1EelonZklSZnj7HaY
+
+###
+GET http://localhost:3000/mobile/user
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoiZ2hvdWFzLmFiZGVsaGFrQGdtYWlsLmNvbSIsInVzZXJJZCI6IjYzMWM4ZGQxNzUxOGQwZWVjZjYwZjQ5NyJ9LCJpYXQiOjE2NjMzNjE5MTQsImV4cCI6MTY2MzQ0ODMxNH0.gOFq3OfEciow9cyMHurPPHwEP8nTts6hJrSNnpdR8nQ
+###
+POST http://localhost:3000/mobile/login
+Content-Type: application/json
+
+{
+    "email": "ghouas.abdelhak@gmail.com",
+    "password": "password"
+}

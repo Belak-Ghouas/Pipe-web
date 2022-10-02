@@ -14,6 +14,8 @@ const path = require("path");
 const authRoute = require("./routes/auth");
 const postsRoute = require("./routes/posts");
 const slackRoute = require("./routes/slack");
+const User = require("./models/user");
+const constants = require("./utils/Constants");
 
 const mongoose = require("mongoose");
 const mongoStore = require("connect-mongo");
@@ -24,7 +26,10 @@ const bodyParser = require("body-parser");
 const dbURI = "mongodb+srv://"+process.env.DATABASE_USERNAME+":"+process.env.DATABASE_PASSWORD+
 "@sms-pipe-database.hu6fyrs.mongodb.net/?retryWrites=true&w=majority";
 const autheMiddleWare = require("./middlewares");
-const sessionMiddleWare = require('./sessionmiddleware')
+const sessionMiddleWare = require('./sessionmiddleware');
+const authController = require('./controllers/authController')
+
+const { json } = require("body-parser");
 const sessionStorage = mongoStore.create({
   mongoUrl: dbURI,
   collectionName: "sessions",
@@ -102,15 +107,91 @@ app.get("/login", (req, res)=>{
   }
 });
 
-app.get("/mobile", autheMiddleWare.authenticateToken, (req, res)=>{
+app.get("/mobile/home", autheMiddleWare.authenticateToken, (req, res)=>{
   functions.logger.info("come from mobile");
   res.render("pages/about", {"username": req.session.username});
 });
 
-/*
-app.post("/login",(req,res)=>{
-  res.redirect("api/auth/login");
-})*/
+app.get("/mobile/user",autheMiddleWare.authenticateToken,(req, res)=>{
+  if(req.session.userId == undefined){
+    functions.logger.error("user id is undefined" +req.session.username+" "+req.session.toString());
+   return  res.status(401).json({error:{ errorCode : constants.USER_NOT_FOUND_ERROR,
+     message : "User not found"}
+  });
+  }
+
+  User.findOne({_id: req.session.userId})
+      .then((user) => {
+        if (!user) {
+          functions.logger.error("user not found on the database for this id "+ req.session.userId);
+          return res.status(401).json({error:{ errorCode : constants.USER_NOT_FOUND_ERROR,
+            message : "User not found"}
+         });
+        } else {
+          const response= user.toObject();
+          delete response["password"]
+          delete response._id
+          delete response.__v
+         return  res.status(200).json(response);
+      }
+    }) .catch((error) => {
+        functions.logger.info("error database =" +error);
+      
+        return res.status(401).send("user is not found in database");
+      });
+})
+
+
+app.post("/mobile/login",(req, res)=>{
+
+    authController.login(req.body.email,req.body.password).then((response) =>{
+        return res.status(200).send(JSON.stringify(response))
+    }).catch((error) => {
+
+      switch (error) {
+        case constants.EMPTY_FIELDS_ERROR:{
+          return res.status(400).json({
+            error:{
+              errorCode : constants.EMPTY_FIELDS_ERROR,
+              message : "Empty fields"
+            }});
+          break;
+        }
+        case constants.USER_NOT_FOUND_ERROR:
+          return res.status(401).json({
+            error:{
+              errorCode : constants.USER_NOT_FOUND_ERROR,
+              message : "User not found"
+            }});
+          break;
+   
+        case constants.WRONG_EMAIL_OR_PASSWORD_ERROR:
+          return res.status(401).json({
+            error:{
+              errorCode : constants.WRONG_EMAIL_OR_PASSWORD_ERROR,
+              message : "wrong email or password"
+            }});
+          break;
+
+          case constants.INTERNAL_ERROR:
+            return res.status(500).json({
+              error:{
+                errorCode :  constants.INTERNAL_ERROR,
+                message : "wrong email or password"
+              }});
+            break;
+        default:
+          return res.status(500).json({
+            error:{
+              errorCode :  constants.INTERNAL_ERROR,
+              message : "unknow error"
+            }});
+          break;
+      }
+    });
+});
+
+
 app.get("/register", (req, res)=>{
   res.render("pages/register");
 });

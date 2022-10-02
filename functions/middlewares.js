@@ -14,8 +14,7 @@ exports.authenticateToken = function(req, res, next) {
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
       if (err) {
          functions.logger.info("failed to verify the token due to "+err);
-        res.status(403);
-        return res.send({error: "not allowed"});
+         return res.status(401).send(err);
       }
       req.user = user.data;
       next();
