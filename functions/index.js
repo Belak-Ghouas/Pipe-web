@@ -113,7 +113,8 @@ app.get("/mobile/home", autheMiddleWare.authenticateToken, (req, res)=>{
 });
 
 app.get("/mobile/user",autheMiddleWare.authenticateToken,(req, res)=>{
-  if(req.session.userId == undefined){
+  const userId = req.user.userId
+  if(req.user.userId == undefined){
     functions.logger.error("user id is undefined" +req.session.username+" "+req.session.toString());
    return  res.status(401).json({error:{ errorCode : constants.USER_NOT_FOUND_ERROR,
      message : "User not found"}
@@ -128,6 +129,7 @@ app.get("/mobile/user",autheMiddleWare.authenticateToken,(req, res)=>{
             message : "User not found"}
          });
         } else {
+          functions.logger.info("mobile user refresh successfully with token");
           const response= user.toObject();
           delete response["password"]
           delete response._id

@@ -16,7 +16,7 @@ exports.authenticateToken = function(req, res, next) {
          functions.logger.info("failed to verify the token due to "+err);
          return res.status(401).send(err);
       }
-      req.user = user.data;
+      req.user = user.data;  
       next();
     });
   }
