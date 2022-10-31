@@ -107,21 +107,48 @@ app.get("/login", (req, res)=>{
   }
 });
 
-app.get("/mobile/home", autheMiddleWare.authenticateToken, (req, res)=>{
-  functions.logger.info("come from mobile");
-  res.render("pages/about", {"username": req.session.username});
+app.get("/mobile/slack", autheMiddleWare.authenticateToken, (req, res)=>{
+  functions.logger.info("come from mobile to home");
+  const userId = req.user.userId
+  if(userId == undefined){
+    functions.logger.error("user id is undefined" +req.session.username+" "+req.session.toString());
+   return  res.status(401).json({error:{ errorCode : constants.USER_NOT_FOUND_ERROR,
+     message : "User not found"}
+  });
+  }else{
+    User.findOne({_id: userId})
+      .then((user) => {
+        if (!user) {
+          functions.logger.error("user not found on the database for this id "+ req.session.userId);
+          return res.status(401).json({error:{ errorCode : constants.USER_NOT_FOUND_ERROR,
+            message : "User not found"}
+         });
+        } else {
+          req.session.userId = user._id;
+          req.session.username=user.username;
+          res.redirect("/slack/slackcode");
+        //  res.render("pages/about", {"username": req.session.username});
+      }
+    }) .catch((error) => {
+        functions.logger.info("error database =" +error);
+      
+        return res.status(401).send("user is not found in database");
+      });
+  }
+
+ 
 });
 
 app.get("/mobile/user",autheMiddleWare.authenticateToken,(req, res)=>{
   const userId = req.user.userId
-  if(req.user.userId == undefined){
+  if(userId == undefined){
     functions.logger.error("user id is undefined" +req.session.username+" "+req.session.toString());
    return  res.status(401).json({error:{ errorCode : constants.USER_NOT_FOUND_ERROR,
      message : "User not found"}
   });
   }
 
-  User.findOne({_id: req.session.userId})
+  User.findOne({_id: userId})
       .then((user) => {
         if (!user) {
           functions.logger.error("user not found on the database for this id "+ req.session.userId);
@@ -134,7 +161,7 @@ app.get("/mobile/user",autheMiddleWare.authenticateToken,(req, res)=>{
           delete response["password"]
           delete response._id
           delete response.__v
-         return  res.status(200).json(response);
+         return  res.status(200).json({user:response});
       }
     }) .catch((error) => {
         functions.logger.info("error database =" +error);
@@ -196,6 +223,11 @@ app.post("/mobile/login",(req, res)=>{
 
 app.get("/register", (req, res)=>{
   res.render("pages/register");
+});
+
+
+app.get("/cgu",(req, res)=>{
+  res.render("pages/cgu");
 });
 
 
