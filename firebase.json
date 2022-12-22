@@ -16,8 +16,14 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "rewrites": [ {
+    "rewrites": [
+       {
+        "source": ".well-known/assetlinks.json",
+        "destination": ".well-known/assetlinks.json"
+      } ,
+      {
       "source": "**", "function": "app"
-    } ]
+    } 
+  ]
   }
 }

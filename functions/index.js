@@ -16,7 +16,7 @@ const postsRoute = require("./routes/posts");
 const slackRoute = require("./routes/slack");
 const User = require("./models/user");
 const constants = require("./utils/Constants");
-
+var axios = require('axios');
 const mongoose = require("mongoose");
 const mongoStore = require("connect-mongo");
 const session = require("express-session");
@@ -30,11 +30,14 @@ const sessionMiddleWare = require('./sessionmiddleware');
 const authController = require('./controllers/authController')
 
 const { json } = require("body-parser");
+const { debug } = require("console");
 const sessionStorage = mongoStore.create({
   mongoUrl: dbURI,
   collectionName: "sessions",
   autoRemove: "native",
 });
+
+const jwt = require("jsonwebtoken");
 const app = express();
 app.set("views", path.join(__dirname, "public"));
 app.set("view engine", "ejs");
@@ -51,7 +54,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
-  cookie: {maxAge: 24 * 60 * 60 * 1000}, // 24 hours
+  cookie: {maxAge: 24 * 60 * 60 * 1000 *3}, // 24 hours
   store: sessionStorage,
 }));
 // ------------ Connecting flash ------------//
@@ -107,8 +110,19 @@ app.get("/login", (req, res)=>{
   }
 });
 
-app.get("/mobile/slack", autheMiddleWare.authenticateToken, (req, res)=>{
+app.get("/mobile/slack/internal", (req, res)=>{
   functions.logger.info("come from mobile to home");
+  const token = req.query.my_ticket
+  if(token==undefined) return  res.status(401).send("token param query is null");
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) {
+       functions.logger.info("failed to verify the token due to "+err);
+       return res.status(401).send(err);
+    }
+  
+  req.user = user.data;  
+ 
   const userId = req.user.userId
   if(userId == undefined){
     functions.logger.error("user id is undefined" +req.session.username+" "+req.session.toString());
@@ -135,7 +149,7 @@ app.get("/mobile/slack", autheMiddleWare.authenticateToken, (req, res)=>{
         return res.status(401).send("user is not found in database");
       });
   }
-
+});
  
 });
 
@@ -229,7 +243,6 @@ app.get("/register", (req, res)=>{
 app.get("/cgu",(req, res)=>{
   res.render("pages/cgu");
 });
-
 
 mongoose.connect(dbURI, {useNewUrlParser: true, useUnifiedTopology: true});
 const db = mongoose.connection;
