@@ -108,8 +108,15 @@ router.post("/register", (req, res)=>{
   // res.redirect('/register')
 });
 
+router.post("/refresh",(req,res)=>{
+  refresh_token = {refresh: req.body.resfresh_token};
+  if(token==undefined) return res.status(401)
+});
+ 
+
+
 function generateToken(user) {
-  return jwt.sign({data: user}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "24h"});
+  return jwt.sign({data: user}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "360d"});
 }
 
 
