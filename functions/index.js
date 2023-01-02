@@ -73,28 +73,6 @@ app.use("/user", postsRoute);
 app.use("/slack", slackRoute);
 
 
-/*
-///////////////////////////////////
-//import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app"s Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyCdJVSqkg-muFtl5yb0lxoPK9jsrzTLzzo",
-  authDomain: "sms-pipe-web.firebaseapp.com",
-  projectId: "sms-pipe-web",
-  storageBucket: "sms-pipe-web.appspot.com",
-  messagingSenderId: "315836514127",
-  appId: "1:315836514127:web:709a9b752945e5558e0f3a"
-};
-
-// Initialize Firebase
-const firebase = initializeApp(firebaseConfig);
-
-////////////////////
-*/
-
 app.get("/", sessionMiddleWare.sessionState, function(req, res) {
   functions.logger.info("Go to home page  you are authenticated "+req.session.username);
   res.render("pages/about", {"username": req.session.username});
