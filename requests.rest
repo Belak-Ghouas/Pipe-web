@@ -1,4 +1,4 @@
-POST http://localhost:3000/api/auth/login
+GET http://localhost:3000/api/auth/logout
 Content-Type: application/json
 
 {
@@ -7,13 +7,9 @@ Content-Type: application/json
 }
 
 ###
-POST  http://localhost:3000/api/auth/signup
+GET  http://localhost:3000/mobile/user
 Content-Type: application/json
-
-{
-    "email": "ghouas",
-    "password": "password"
-}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoiZ2hvdWFzLmFiZGVsaGFrQGdtYWlsLmNvbSIsInVzZXJJZCI6IjYzMWM4ZGQxNzUxOGQwZWVjZjYwZjQ5NyJ9LCJpYXQiOjE2NzIyNTQ2OTksImV4cCI6MTY3MjM0MTA5OX0.p4zdoaKnQtGytPCg2ipmwh7Yzd9NrKVHa-nyxtlLdlM
 
 ###
 GET http://localhost:3000/user/posts
@@ -58,7 +54,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsI
 GET http://localhost:3000/mobile/slack/internal?my_ticket=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoiZ2hvdWFzLmFiZGVsaGFrQGdtYWlsLmNvbSIsInVzZXJJZCI6IjYzMWM4ZGQxNzUxOGQwZWVjZjYwZjQ5NyJ9LCJpYXQiOjE2NzE3MjQ1OTksImV4cCI6MTY3MTgxMDk5OX0.2VqT6XBnWG6DSTb9JXUCOG2qttvxpVEuNBiwm3dErmU
 Content-Type: application/json
 ###
-POST http://localhost:3000/mobile/login
+POST http://localhost:3000/mobile/refresh_token
 Content-Type: application/json
 
 {

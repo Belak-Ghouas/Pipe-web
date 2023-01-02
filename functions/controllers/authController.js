@@ -47,5 +47,5 @@ exports.login = (email,password)=>{
 }
 
 function generateToken(user) {
-    return jwt.sign({data: user}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "24h"});
+    return jwt.sign({data: user}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "10d"});
   }

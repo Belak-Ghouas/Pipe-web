@@ -234,6 +234,13 @@ app.post("/mobile/login",(req, res)=>{
     });
 });
 
+app.post("/mobile/refresh_token",(req,res)=>{
+  functions.logger.info("mobile user try to refresh token");
+  refresh_token = {refresh: req.body.resfresh_token};
+  if(refresh_token==undefined) return res.status(401).send()
+
+  return res.status(401).send()
+});
 
 app.get("/register", (req, res)=>{
   res.render("pages/register");
