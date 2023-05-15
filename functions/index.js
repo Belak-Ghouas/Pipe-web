@@ -150,8 +150,8 @@ app.get("/mobile/user",autheMiddleWare.authenticateToken,(req, res)=>{
         } else {
           functions.logger.info("mobile user refresh successfully with token");
           const response= user.toObject();
+          response._id =  user._id.toString()
           delete response["password"]
-          delete response._id
           delete response.__v
          return  res.status(200).json({user:response});
       }

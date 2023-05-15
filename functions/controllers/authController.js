@@ -28,6 +28,7 @@ exports.login = (email,password)=>{
                   const token = generateToken({email: user.email, userId: user._id});
                   functions.logger.info("mobile logged in successfully")
                   const userOb = user.toObject()
+                  userOb._id = user._id.toString()
                   delete userOb.password
                   delete userOb.__v
 
