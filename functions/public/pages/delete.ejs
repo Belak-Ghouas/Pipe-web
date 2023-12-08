@@ -1,0 +1,37 @@
+<!-- views/deleteAccount.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/jquery.js" rel="stylesheet">
+    <link href="/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="/jquery.min.js"></script>
+    <script src="/bootstrap.min.js"></script>
+    <link href="css/delete.css" rel="stylesheet"> <!-- Link to the stylesheet -->
+    <title>Delete Account</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Delete Account</h1>
+
+        <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+
+        <form method="post" action="api/auth/delete">
+            <!-- Add other form fields if necessary, e.g., a password field for verification -->
+            <!-- <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required> -->
+
+            <button type="submit">Delete Account</button>
+        </form>
+
+        <a href="/">Cancel</a>
+    </div>
+</body>
+
+</html>
