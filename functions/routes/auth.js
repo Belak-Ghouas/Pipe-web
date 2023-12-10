@@ -109,17 +109,11 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/delete", (req, res) => {
-  User.findByIdAndDelete(req.session.userId, (err, result) => {
-    if (err) {
-      functions.logger.error('Error executing findOneAndDelete:', err);
-      return res.redirect("/");
-    }
-
-    if (result) {
-      functions.logger.info('Deleted document:', result);
-      delete req.session.userId;
-      return res.redirect("/api/auth/logout")
-    }
+  authController.deleteUser(req.session.userId).then((response) => {
+    functions.logger.info('Deleted document:', result);
+    delete req.session.userId;
+    return res.redirect("/api/auth/logout")
+  }).catch((error) => {
 
     req.flash(
       "error_msg",

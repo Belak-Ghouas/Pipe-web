@@ -237,6 +237,43 @@ app.post("/mobile/refresh_token", (req, res) => {
   return res.status(401).send()
 });
 
+app.get("/mobile/delete", autheMiddleWare.authenticateToken, (req, res) => {
+  authController.deleteUser(req.user.userId).then((deleteUser) => {
+    delete req.user ;
+    return res.status(200).send("user deleted successfully");
+  }).catch((error) => {
+
+    switch (error) {
+      case constants.EMPTY_FIELDS_ERROR: {
+        return res.status(400).json({
+          error: {
+            errorCode: constants.EMPTY_FIELDS_ERROR,
+            message: "Empty fields"
+          }
+        });
+        break;
+      }
+      case constants.USER_NOT_FOUND_ERROR:
+        return res.status(401).json({
+          error: {
+            errorCode: constants.USER_NOT_FOUND_ERROR,
+            message: "User not found"
+          }
+        });
+        break;
+
+        default:
+          return res.status(500).json({
+            error: {
+              errorCode: constants.INTERNAL_ERROR,
+              message: "unknow error"
+            }
+          });
+          break;
+    }
+  })
+});
+
 app.get("/register", (req, res) => {
   res.render("pages/register");
 });
