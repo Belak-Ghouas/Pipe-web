@@ -6,6 +6,7 @@ const rounds = 10;
 
 const jwt = require("jsonwebtoken");
 const functions = require("firebase-functions");
+const authController = require('./controllers/authController')
 
 router.post("/login", (req, res) => {
   User.findOne({ email: req.body.email })

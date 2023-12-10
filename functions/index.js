@@ -239,7 +239,7 @@ app.post("/mobile/refresh_token", (req, res) => {
 
 app.get("/mobile/delete", autheMiddleWare.authenticateToken, (req, res) => {
   authController.deleteUser(req.user.userId).then((deleteUser) => {
-    delete req.user ;
+    delete req.user;
     return res.status(200).send("user deleted successfully");
   }).catch((error) => {
 
@@ -262,14 +262,14 @@ app.get("/mobile/delete", autheMiddleWare.authenticateToken, (req, res) => {
         });
         break;
 
-        default:
-          return res.status(500).json({
-            error: {
-              errorCode: constants.INTERNAL_ERROR,
-              message: "unknow error"
-            }
-          });
-          break;
+      default:
+        return res.status(500).json({
+          error: {
+            errorCode: constants.INTERNAL_ERROR,
+            message: "unknow error"
+          }
+        });
+        break;
     }
   })
 });
