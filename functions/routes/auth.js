@@ -111,7 +111,7 @@ router.post("/register", (req, res) => {
 
 router.post("/delete", (req, res) => {
   authController.deleteUser(req.session.userId).then((response) => {
-    functions.logger.info('Deleted document:', result);
+    functions.logger.info('Deleted document:', response);
     delete req.session.userId;
     return res.redirect("/api/auth/logout")
   }).catch((error) => {
