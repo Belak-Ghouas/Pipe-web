@@ -288,7 +288,7 @@ app.get("/delete", sessionMiddleWare.sessionState, (req, res) => {
   res.render("pages/delete");
 });
 
-app.get("/delete-account", sessionMiddleWare.sessionState, (req, res) => {
+app.get("/delete-account", (req, res) => {
   functions.logger.info("go to delete page");
   res.render("pages/about_delete");
 });
